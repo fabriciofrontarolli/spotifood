@@ -5,16 +5,24 @@ import { connect } from 'react-redux';
 
 import { signOff } from '../modules/authentication';
 
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image'
 
 class Header extends Component {
   constructor(props) {
     super(props);
     this.handleSignOff = this.handleSignOff.bind(this);
+    this.buildUsergreeting = this.buildUsergreeting.bind(this);
   }
 
   async handleSignOff () {
     await this.props.signOffUser();
+  }
+
+  buildUsergreeting() {
+    const { authentication } = this.props;
+    const userGreeting = `Bem-vindo(a) ${authentication.user ? authentication.user.display_name : ''}`;
+    return userGreeting;
   }
 
   render() {
@@ -50,7 +58,12 @@ class Header extends Component {
                 {
                   authentication.isAuthenticated &&
                     <li className="nav-item">
-                      <Link to="/" className="nav-link">Bem-vindo(a)! </Link>
+                      <Link to="/" className="nav-link">
+                        { this.buildUsergreeting() }
+                        { authentication.user &&
+                          <Image className="user-profile-image" src={authentication.user.images[0].url} rounded />
+                        }
+                      </Link>
                     </li>
                 }
                 {

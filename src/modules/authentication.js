@@ -1,8 +1,11 @@
 export const SIGNIN_SPOTIFY = '@authentication/SIGNIN_SPOTIFY';
 export const SIGNOFF_SPOTIFY = '@authentication/SIGNOFF_SPOTIFY';
+export const SET_USER_INFORMATION = '@authentication/SET_USER_INFORMATION';
+export const RESET = '@authentication/RESET';
 
 const INITIAL_STATE = {
     isAuthenticated: false,
+    user: undefined,
     accessToken: ''
 };
 
@@ -32,6 +35,19 @@ export const signInSuccess = (accessToken) => {
     }
 }
 
+export const getUserInformation = () => {
+    return async (dispatch, getState, services) => {
+        try {
+            const { accessToken } = getState().authentication;
+            const userInformation = await services.authentication.getUserInformation(accessToken);
+            dispatch({ type: SET_USER_INFORMATION, userInformation });
+        } catch (err) {
+            // TODO: create a notification reducer
+            console.log(`SpotifyFood Error: Authentication: `, err)
+        }
+    }
+}
+
 export const signOff = () => {
     return async (dispatch) => {
         try {
@@ -40,6 +56,12 @@ export const signOff = () => {
             // TODO: create a notification reducer
             console.log(`SpotifyFood Error: Authentication: `, err)
         }
+    }
+}
+
+export const reset = () => {
+    return async (dispatch) => {
+        dispatch({ type: RESET });
     }
 }
 
@@ -57,6 +79,17 @@ function authenticationReducer(state = INITIAL_STATE, action) {
             break;
         }
         case SIGNOFF_SPOTIFY: {
+            newState = INITIAL_STATE;
+            break;
+        }
+        case SET_USER_INFORMATION: {
+            newState = {
+                ...state,
+                user: action.userInformation,
+            }
+            break;
+        }
+        case RESET: {
             newState = INITIAL_STATE;
             break;
         }

@@ -5,9 +5,12 @@ import throttle from "lodash.throttle";
 import { saveState, loadState } from "./utils/localStorage";
 import services from "../services";
 
-/* import reducers */
+/* Global Reducers */
 import authentication from "./authentication";
-import spotify from "./spotify";
+
+/* Page Reducers */
+import featuredPlaylists, { FEATURED_PLAYLISTS_REDUX_NAME } from "../pages/FeaturedPlaylists/module";
+
 
 /* enhancers */
 const middlwares = [thunk.withExtraArgument(services)];
@@ -15,7 +18,7 @@ const middlwares = [thunk.withExtraArgument(services)];
 /* combine reducers */
 const allReducers = combineReducers({
   authentication,
-  spotify,
+  [FEATURED_PLAYLISTS_REDUX_NAME]: featuredPlaylists,
 });
 
 const persistedState = loadState();
@@ -32,7 +35,7 @@ store.subscribe(
   throttle(() => {
     saveState({
       authentication: store.getState().authentication,
-      spotify: store.getState().spotify,
+      [FEATURED_PLAYLISTS_REDUX_NAME]: store.getState()[FEATURED_PLAYLISTS_REDUX_NAME],
     });
   }, 1000)
 );

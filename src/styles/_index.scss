@@ -4,7 +4,7 @@
     background-size: 100%;
     background-position: left center;
     border-bottom: 1px solid $gray-300;
-    min-height: 20vh;
+    min-height: 28vh;
     background-image: url('../images/filters-background.jpeg');
     filter: grayscale(65%);
     
@@ -30,6 +30,11 @@
             }
 
             .filter-field-number {
+                color: $gray-300;
+                width: 100%;
+            }
+            .filter-field-date {
+                color: $primary-input-color;
                 width: 100%;
             }
         }

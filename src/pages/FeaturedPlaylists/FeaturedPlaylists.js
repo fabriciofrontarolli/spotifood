@@ -7,10 +7,13 @@ import {
   fetchFilters,
   fetchPlaylists,
   setFilterValue,
-  resetFilters
-} from "../modules/spotify";
+  resetFilters,
+  getFeaturedPlaylistsStore
+} from "./module";
 
-import FeaturedPlaylists from '../components/FeaturedPlaylists';
+import { getUserInformation, reset } from '../../modules/authentication';
+
+import FeaturedPlaylists from '../../components/FeaturedPlaylists';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
 import Select from "react-dropdown-select";
@@ -28,6 +31,8 @@ class Index extends Component {
     this.buildDropdownFilterComponent = this.buildDropdownFilterComponent.bind(this);
     this.buildDateFilterComponent = this.buildDateFilterComponent.bind(this);
     this.handleResetFilters = this.handleResetFilters.bind(this);
+    this.handleGoToPlaylist = this.handleGoToPlaylist.bind(this);
+    this.fetchPlaylists = this.fetchPlaylists.bind(this);
   }
 
   componentWillMount() {
@@ -42,13 +47,18 @@ class Index extends Component {
 
   async componentDidMount() {
     await this.props.getFilters();
-    await this.props.getPlaylists();
+    await this.props.getUserInfo();
+    await fetchPlaylists();
   }
 
   async componentDidUpdate(prevProps) {
-    if (this.props.spotify.selectedFilters !== prevProps.spotify.selectedFilters) {
-      await this.props.getPlaylists();
+    if (this.props.featuredPlaylists.selectedFilters !== prevProps.featuredPlaylists.selectedFilters) {
+      await this.fetchPlaylists();
     }
+  }
+
+  async fetchPlaylists() {
+    await this.props.getPlaylists();
   }
 
   handleFilterValueChange(filterName, filterValue) {
@@ -61,14 +71,14 @@ class Index extends Component {
         <FormControl
           onChange={(ev) => this.handleFilterValueChange(filter.id, ev.target.value)}
           placeholder={filter.name}
-          value={this.props.spotify.selectedFilters[filter.id] || ''}
+          value={this.props.featuredPlaylists.selectedFilters[filter.id] || ''}
         />
       </div>
     );
   }
 
   buildDropdownFilterComponent(filter) {
-    const selectedValues = this.props.spotify.selectedFilters;
+    const selectedValues = this.props.featuredPlaylists.selectedFilters;
 
     return (
       <div className="col-lg-2 filter-field-container" key={`playlist-filter-${filter.id}`}>
@@ -93,6 +103,7 @@ class Index extends Component {
         <input
           type="date"
           placeholder={filter.name}
+          className="filter-field-date"
           onChange={(ev) => this.handleFilterValueChange(filter.id, moment(ev.target.value).toISOString()) }
         />
       </div>
@@ -133,8 +144,12 @@ class Index extends Component {
     this.props.clearFilters();
   }
 
+  handleGoToPlaylist(playlistUrl) {
+    window.open(playlistUrl);
+  }
+
   render() {
-    const { filters, playlists } = this.props.spotify;
+    const { filters, playlists } = this.props.featuredPlaylists;
 
     return (
       <div>
@@ -168,7 +183,11 @@ class Index extends Component {
           </div>
 
           <div className="container playlist-listing">
-            <FeaturedPlaylists filters={filters} playlists={playlists.items} />
+            <FeaturedPlaylists
+              filters={filters}
+              playlists={playlists.items}
+              handleGoToPlaylist={this.handleGoToPlaylist}
+            />
           </div>
         </div>
       </div>
@@ -176,15 +195,17 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = ({ authentication, spotify }) => ({
-  authentication,
-  spotify
+const mapStateToProps = (state) => ({
+  authentication: state.authentication,
+  featuredPlaylists: getFeaturedPlaylistsStore(state)
 });
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({
       getFilters: fetchFilters,
       getPlaylists: fetchPlaylists,
+      getUserInfo: getUserInformation,
+      resetApplication: reset,
       setFilter: setFilterValue,
       clearFilters: resetFilters,
   }, dispatch);

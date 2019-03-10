@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 /* Page Components */
-import Index from '../pages/Index';
+import FeaturedPlaylists from './FeaturedPlaylists';
 
 class Landing extends Component {
   render() {
@@ -15,7 +15,7 @@ class Landing extends Component {
       <div>
         <Header />
           <Switch>
-            <Route path="/" component={Index} />
+            <Route path="/" component={FeaturedPlaylists} />
           </Switch>
         <Footer />
       </div>

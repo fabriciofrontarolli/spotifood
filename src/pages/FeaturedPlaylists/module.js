@@ -1,8 +1,9 @@
-export const LOAD_FILTERS = '@spotify/LOAD_FILTERS';
-export const LOAD_SPOTIFY_PLAYLISTS = '@spotify/LOAD_SPOTIFY_PLAYLISTS';
-export const SET_FILTER_VALUE = '@spotify/SET_FILTER_VALUE';
-export const RESET_FILTERS = '@spotify/RESET_FILTERS';
-export const RESET = '@spotify/RESET';
+export const LOAD_FILTERS = '@featuredPlaylists/LOAD_FILTERS';
+export const LOAD_SPOTIFY_PLAYLISTS = '@featuredPlaylists/LOAD_SPOTIFY_PLAYLISTS';
+export const SET_FILTER_VALUE = '@featuredPlaylists/SET_FILTER_VALUE';
+export const RESET_FILTERS = '@featuredPlaylists/RESET_FILTERS';
+export const RESET = '@featuredPlaylists/RESET';
+export const FEATURED_PLAYLISTS_REDUX_NAME = 'featuredPlaylists';
 
 const INITIAL_STATE = {
     filters: [],
@@ -10,11 +11,16 @@ const INITIAL_STATE = {
     selectedFilters: {}
 };
 
+// Selectors
+export function getFeaturedPlaylistsStore(state) {
+    return state[FEATURED_PLAYLISTS_REDUX_NAME];
+}
+
 /* Action Handlers */
 export const fetchFilters = () => {
     return async (dispatch, getState, services) => {
         try {
-            if (!getState().spotify.filters.length) {
+            if (!getState().featuredPlaylists.filters.length) {
                 const filters = await services.spotify.fetchFilters();
                 dispatch({ type: LOAD_FILTERS, filters });
             }
@@ -29,7 +35,7 @@ export const fetchPlaylists = () => {
     return async (dispatch, getState, services) => {
         try {
             const { accessToken } = getState().authentication;
-            const { selectedFilters } = getState().spotify;
+            const { selectedFilters } = getState().featuredPlaylists;
 
             const playlists = await services.spotify.fetchPlaylists(accessToken, selectedFilters);
             dispatch({ type: LOAD_SPOTIFY_PLAYLISTS, playlists });
@@ -52,7 +58,7 @@ export const resetFilters = () => {
 }
 
 /* REDUCER */
-function spotifyReducer(state = INITIAL_STATE, action) {
+function featuredPlaylistsReducer(state = INITIAL_STATE, action) {
     let newState = { ...state };
 
     switch (action.type) {
@@ -102,4 +108,4 @@ function spotifyReducer(state = INITIAL_STATE, action) {
     return newState;
 }
 
-export default spotifyReducer;
+export default featuredPlaylistsReducer;

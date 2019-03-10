@@ -36,8 +36,15 @@ $ npm run test
 
 ### Demo
 
-- A live version of the app is available at https://spotifood-cf4c0.firebaseapp.com/
+- **Demo Link** A live version of the app is available at https://spotifood-cf4c0.firebaseapp.com/
 
+# **Login Page**
+
+![](//i.imgur.com/pg9eRRs.png)
+
+# **Landing Page**
+
+![](//i.imgur.com/mOBEIaw.png)
 
 ### Consideradions
 
