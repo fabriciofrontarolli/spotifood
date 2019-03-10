@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.0.0
+    working_directory: ~/spotifood
+    steps:
+      - checkout
+      - run:
+          name: 'install dependecies'
+          command: 'sudo npm install'
+      - run:
+          name: 'build assets and deploy'
+          command: 'sudo npm run deploy'
+      - run: npm run deploy
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
