@@ -10,9 +10,11 @@ jobs:
           name: 'install dependecies'
           command: 'sudo npm install'
       - run:
-          name: 'build assets and deploy'
-          command: 'sudo npm run deploy'
-      - run: npm run deploy
+          name: 'build assets'
+          command: 'sudo npm run build'
+      - run:
+          name: deploy master to firebase
+          command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN
 
 workflows:
   version: 2
