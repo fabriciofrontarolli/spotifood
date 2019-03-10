@@ -1,6 +1,6 @@
 # iFood / SpotiFood
 
-[![CircleCI](https://circleci.com/bb/fabriciofrontarolli/spotifood.svg?style=svg)](https://circleci.com/bb/fabriciofrontarolli/spotifood)
+[![CircleCI](https://circleci.com/gh/fabriciofrontarolli/spotifood.svg?style=svg)](https://circleci.com/gh/fabriciofrontarolli/spotifood)
 
 ### Tech
 
@@ -40,18 +40,17 @@ $ npm run test
 
 # **Login Page**
 
-![](//i.imgur.com/pg9eRRs.png)
+![Login Page](https://i.imgur.com/pg9eRRs.png)
 
 # **Landing Page**
 
-![](//i.imgur.com/mOBEIaw.png)
+![Landing Page](https://i.imgur.com/mOBEIaw.png)
 
 ### Consideradions
 
 ### Workflow
 
-- Used one single branch (master)
-- The steps taken to build the app
+-- **Branching**: Used one single branch (master)
 -- **Architecture**: I started building the boilerplate to prepare the overall codebase to develop the app. (1. Setup the app boilerplate (modules, actions, reducers, etc..) 2. Setup the services (REST requests, etc..)
 -- **Layout**: Created the overall template to build the app (Login and Landing page)
 -- **Integration**: Studied/Learned how to authenticate and interact with the Spotify API and adjusted the service code to integrate with the API.
@@ -83,5 +82,3 @@ $ npm run test
 License
 ----
 MIT
-
-**Free Software, Hell Yeah!**
