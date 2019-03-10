@@ -54,7 +54,7 @@ $ npm run test
 
 -- **Architecture**: I started building the boilerplate to prepare the overall codebase to develop the app. (1. Setup the app boilerplate (modules, actions, reducers, etc..) 2. Setup the services (REST requests, etc..)
 
--- **Layout**: Created the overall template to build the app (Login and Landing page) considering *Mobile First*
+-- **Layout**: Created the overall template to build the app (Login and Landing page) considering **Mobile First**
 
 -- **Integration**: Studied/Learned how to authenticate and interact with the Spotify API and adjusted the service code to integrate with the API.
 
