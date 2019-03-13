@@ -1,15 +1,15 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
-import throttle from "lodash.throttle";
-import { saveState, loadState } from "./utils/localStorage";
-import services from "../services";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
+import throttle from 'lodash.throttle';
+import { saveState, loadState } from './utils/localStorage';
+import services from '../services';
 
 /* Global Reducers */
-import authentication from "./authentication";
+import authentication from './authentication';
 
 /* Page Reducers */
-import featuredPlaylists, { FEATURED_PLAYLISTS_REDUX_NAME } from "../pages/FeaturedPlaylists/module";
+import featuredPlaylists, { FEATURED_PLAYLISTS_REDUX_NAME } from '../pages/FeaturedPlaylists/module';
 
 
 /* enhancers */
@@ -27,7 +27,7 @@ const persistedState = loadState();
 const store = createStore(
   allReducers,
   persistedState,
-  composeWithDevTools(applyMiddleware(...middlwares))
+  composeWithDevTools(applyMiddleware(...middlwares)),
 );
 
 /* Persist store to local storage */
@@ -37,7 +37,7 @@ store.subscribe(
       authentication: store.getState().authentication,
       [FEATURED_PLAYLISTS_REDUX_NAME]: store.getState()[FEATURED_PLAYLISTS_REDUX_NAME],
     });
-  }, 1000)
+  }, 1000),
 );
 
 export default store;

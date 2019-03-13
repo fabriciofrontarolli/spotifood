@@ -1,7 +1,7 @@
-export const saveState = state => {
+export const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
-    localStorage.setItem("@SPOTIFOOD_STATE", serializedState);
+    localStorage.setItem('@SPOTIFOOD_STATE', serializedState);
   } catch {
     // ignore write errors
   }
@@ -9,7 +9,7 @@ export const saveState = state => {
 
 export const loadState = () => {
   try {
-    const serializedState = localStorage.getItem("@SPOTIFOOD_STATE");
+    const serializedState = localStorage.getItem('@SPOTIFOOD_STATE');
     if (serializedState === null) {
       return undefined;
     }

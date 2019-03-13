@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch } from 'react-router-dom';
 
 /* Components */
 import Header from '../components/Header';
@@ -14,15 +14,15 @@ class Landing extends Component {
     return (
       <div>
         <Header />
-          <Switch>
-            <Route path="/" component={FeaturedPlaylists} />
-          </Switch>
+        <Switch>
+          <Route path="/" component={FeaturedPlaylists} />
+        </Switch>
         <Footer />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ authentication }) => ({ authentication })
+const mapStateToProps = ({ authentication }) => ({ authentication });
 
 export default connect(mapStateToProps)(Landing);

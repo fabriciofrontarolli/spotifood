@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import { signIn, signInSuccess } from "../modules/authentication";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import { extractAccessTokenFromUrlHash } from '../utils/common';
 
-import { Button } from 'react-bootstrap';
+import { signIn, signInSuccess } from '../modules/authentication';
 
 class Signin extends Component {
   constructor(props) {
@@ -19,24 +20,27 @@ class Signin extends Component {
   }
 
   handleAuthenticateSpotifood() {
-    this.props.authenticate();
+    const { authenticate } = this.props;
+    authenticate();
   }
 
   async handleAuthenticatedUser() {
-    const isSpotifyAuthenticationCallback = !!this.props.location.hash;
+    const { history, location } = this.props;
+    const isSpotifyAuthenticationCallback = !!location.hash;
 
     if (isSpotifyAuthenticationCallback) {
-      const accessToken = extractAccessTokenFromUrlHash(this.props.location.hash);
-      await this.props.signInUser(accessToken);
-      this.props.history.push('/')
+      const { signInUser } = this.props;
+      const accessToken = extractAccessTokenFromUrlHash(location.hash);
+      await signInUser(accessToken);
+      history.push('/');
     }
   }
 
   render() {
     return (
       <div className="signin-container">
-        <div className="background-ifood"></div>
-        <div className="background-spotify"></div>
+        <div className="background-ifood" />
+        <div className="background-spotify" />
         <div className="signin-content">
           <h3>Bem-vindo(a) ao SpotiFood</h3>
           <div className="container">
@@ -48,9 +52,10 @@ class Signin extends Component {
               <Button
                 variant="success"
                 className="btn singin-button"
-                onClick={this.handleAuthenticateSpotifood}>
+                onClick={this.handleAuthenticateSpotifood}
+              >
                 Entrar
-                </Button>
+              </Button>
             </div>
           </div>
         </div>
@@ -60,14 +65,19 @@ class Signin extends Component {
 }
 
 const mapStateToProps = ({ authentication }) => ({ authentication });
-const mapDispatchToProps = dispatch => {
-    return bindActionCreators({
-        authenticate: signIn,
-        signInUser: signInSuccess
-    }, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  authenticate: signIn,
+  signInUser: signInSuccess,
+}, dispatch);
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(withRouter(Signin));
+
+Signin.propTypes = {
+  authenticate: PropTypes.func.isRequired,
+  history: PropTypes.shape().isRequired,
+  location: PropTypes.shape().isRequired,
+  signInUser: PropTypes.func.isRequired,
+};

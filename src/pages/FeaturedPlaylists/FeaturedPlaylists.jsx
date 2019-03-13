@@ -1,30 +1,30 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
+import { bindActionCreators } from 'redux';
 import moment from 'moment';
 
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
+import Select from 'react-dropdown-select';
 import {
   fetchFilters,
   fetchPlaylists,
   setFilterValue,
   resetFilters,
-  getFeaturedPlaylistsStore
-} from "./module";
+  getFeaturedPlaylistsStore,
+} from './module';
 
 import { getUserInformation, reset } from '../../modules/authentication';
 
 import FeaturedPlaylists from '../../components/FeaturedPlaylists';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
-import Select from "react-dropdown-select";
 
 class Index extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      selectedFilters: {}
-    }
+      selectedFilters: {},
+    };
 
     this.buildFilterComponent = this.buildFilterComponent.bind(this);
     this.buildInputFilterComponent = this.buildInputFilterComponent.bind(this);
@@ -38,7 +38,8 @@ class Index extends Component {
   componentWillMount() {
     this.scheduledSpotifyPlaylistFetcher = setInterval(
       () => this.props.getPlaylists(),
-    30000);
+      30000,
+    );
   }
 
   componentWillUnmount() {
@@ -69,7 +70,7 @@ class Index extends Component {
     return (
       <div className="col-lg-2 filter-field-container" key={`playlist-filter-${filter.id}`}>
         <FormControl
-          onChange={(ev) => this.handleFilterValueChange(filter.id, ev.target.value)}
+          onChange={ev => this.handleFilterValueChange(filter.id, ev.target.value)}
           placeholder={filter.name}
           value={this.props.featuredPlaylists.selectedFilters[filter.id] || ''}
         />
@@ -85,7 +86,7 @@ class Index extends Component {
         <Select
           values={filter.values.filter(opt => opt.value === selectedValues[filter.id]) || []}
           options={filter.values}
-          onChange={(value) => this.handleFilterValueChange(filter.id, value[0] ? value[0].value : '')}
+          onChange={value => this.handleFilterValueChange(filter.id, value[0] ? value[0].value : '')}
           className="filter-dropdown"
           labelField="name"
           valueField="value"
@@ -104,7 +105,7 @@ class Index extends Component {
           type="date"
           placeholder={filter.name}
           className="filter-field-date"
-          onChange={(ev) => this.handleFilterValueChange(filter.id, moment(ev.target.value).toISOString()) }
+          onChange={ev => this.handleFilterValueChange(filter.id, moment(ev.target.value).toISOString())}
         />
       </div>
     );
@@ -117,7 +118,7 @@ class Index extends Component {
           type="number"
           className="filter-field-number"
           placeholder={filter.name}
-          onChange={(ev) => this.handleFilterValueChange(filter.id, ev.target.value) }
+          onChange={ev => this.handleFilterValueChange(filter.id, ev.target.value)}
         />
       </div>
     );
@@ -128,11 +129,9 @@ class Index extends Component {
 
     if (filter.values) {
       componentBuilderFn = this.buildDropdownFilterComponent;
-    }
-    else if (filter.validation && filter.validation.entityType === 'DATE_TIME') {
+    } else if (filter.validation && filter.validation.entityType === 'DATE_TIME') {
       componentBuilderFn = this.buildDateFilterComponent;
-    }
-    else if (filter.validation && filter.validation.primitiveType === 'INTEGER') {
+    } else if (filter.validation && filter.validation.primitiveType === 'INTEGER') {
       componentBuilderFn = this.buildNumberFilterComponent;
     }
 
@@ -174,7 +173,8 @@ class Index extends Component {
                   <Button
                     variant="success"
                     className="reset-filters"
-                    onClick={this.handleResetFilters}>
+                    onClick={this.handleResetFilters}
+                  >
                     Limpar Filtros
                   </Button>
                 </div>
@@ -195,20 +195,18 @@ class Index extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   authentication: state.authentication,
-  featuredPlaylists: getFeaturedPlaylistsStore(state)
+  featuredPlaylists: getFeaturedPlaylistsStore(state),
 });
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({
-      getFilters: fetchFilters,
-      getPlaylists: fetchPlaylists,
-      getUserInfo: getUserInformation,
-      resetApplication: reset,
-      setFilter: setFilterValue,
-      clearFilters: resetFilters,
-  }, dispatch);
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  getFilters: fetchFilters,
+  getPlaylists: fetchPlaylists,
+  getUserInfo: getUserInformation,
+  resetApplication: reset,
+  setFilter: setFilterValue,
+  clearFilters: resetFilters,
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);
