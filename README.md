@@ -3,14 +3,25 @@
 
 [![CircleCI](https://circleci.com/gh/fabriciofrontarolli/spotifood.svg?style=svg)](https://circleci.com/gh/fabriciofrontarolli/spotifood)
 
+### Acceptance Criteria
+    * [x] Two components: One list of playlists. One filter component with API filter fields and one local search text input to filter the playlists by "name".
+    * [x] The filter component should be used to filter the elements displayed by the list of featured playlists.
+    * [x] The API filter fields and their possible values/type should be mounted by consuming this API
+    * [x] The featured playlists to be displayed should be consumed from this API.
+    * [x] Every time the user change any information on the filter component, the list should be refresh accordingly. In case of API filter field change you should recall the playlists API with the filter parameters every time.
+    * [x] Refresh spotfy playlists page every 30 seconds.
+    
+
 ### Tech
 
 iFood SpotiFood uses a number of open source projects to work properly:
 
 * [ReactJS] - As frontend lib!
 -- Redux ducks modules
+-- Could have used style components to better modularize components.
 -- Services Layer: I created a Services layer to centralize communication with external world. Initially I used Firebase Firestore database, suited perfectly in this layer. But then I rolledback and kept only REST interactions.
 * [Redux] - A Predictable State Container for JS Apps
+-- Could have used Redux-Sagas to centralize side-effects.
 * [Eslint] - Pluggable javascript linter (with Airbnb rules)
 * [Babel] - Babel 7 Javascript compiler
 * [ParcelJS] - A seamless packer to interpret SASS, JAX, ES6, etc...
