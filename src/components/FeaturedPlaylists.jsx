@@ -23,6 +23,13 @@ const FeaturedPlaylists = ({ filters, playlists, handleGoToPlaylist }) => (
                                   <Card.Img variant="top" src={playlist.images[0].url} />
                                   <Card.Body>
                                     <Card.Title>{ playlist.name }</Card.Title>
+                                    <Button
+                                      variant="secondary"
+                                      className="reset-filters"
+                                      onClick={handleGoToPlaylist}
+                                    >
+                                      Ver Playlist
+                                    </Button>
                                   </Card.Body>
                                 </Card>
                               </div>
