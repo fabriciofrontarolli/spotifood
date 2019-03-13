@@ -1,5 +1,6 @@
 # iFood / SpotiFood
 
+
 [![CircleCI](https://circleci.com/gh/fabriciofrontarolli/spotifood.svg?style=svg)](https://circleci.com/gh/fabriciofrontarolli/spotifood)
 
 ### Tech
@@ -7,9 +8,16 @@
 iFood SpotiFood uses a number of open source projects to work properly:
 
 * [ReactJS] - As frontend lib!
+-- Redux ducks modules
+-- Services Layer: I created a Services layer to centralize communication with external world. Initially I used Firebase Firestore database, suited perfectly in this layer. But then I rolledback and kept only REST interactions.
 * [Redux] - A Predictable State Container for JS Apps
+* [Eslint] - Pluggable javascript linter (with Airbnb rules)
+* [Babel] - Babel 7 Javascript compiler
 * [ParcelJS] - A seamless packer to interpret SASS, JAX, ES6, etc...
 * [Bootstrap] - Great UI Framework for modern web apps
+* [Jest] - Delightful JavaScript Testing
+* [Firebase Hosting] - Production-grade web content hosting for developers
+* [CircleCI] - CI/CD Platform
 
 ### Running the Project
 
