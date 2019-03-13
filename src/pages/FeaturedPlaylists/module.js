@@ -35,7 +35,7 @@ export const fetchPlaylists = () => async (dispatch, getState, services) => {
     const { selectedFilters } = getState().featuredPlaylists;
 
     const playlists = await services.spotify.fetchPlaylists(accessToken, selectedFilters);
-    dispatch({ type: LOAD_SPOTIFY_PLAYLISTS, playlists });
+    dispatch({ type: LOAD_SPOTIFY_PLAYLISTS, playlists: playlists.items });
   } catch (err) {
     dispatch({ type: LOAD_SPOTIFY_PLAYLISTS, playlists: [] });
   }

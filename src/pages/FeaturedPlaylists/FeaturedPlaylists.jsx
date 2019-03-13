@@ -157,7 +157,7 @@ class Index extends Component {
     const { featuredPlaylists } = this.props;
     const { playlistNameFilter } = this.state;
 
-    const filteredPlaylist = featuredPlaylists.playlists.items.length ? featuredPlaylists.playlists.items.filter(
+    const filteredPlaylist = (featuredPlaylists.playlists.length) ? featuredPlaylists.playlists.filter(
       p => p.name.toLowerCase().includes(playlistNameFilter.toLowerCase())
     ) : [];
     return filteredPlaylist;
