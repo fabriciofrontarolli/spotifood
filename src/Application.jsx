@@ -25,5 +25,5 @@ const mapStateToProps = ({ authentication }) => ({ authentication });
 export default connect(mapStateToProps)(Application);
 
 Application.propTypes = {
-  authentication: PropTypes.shape().shape()
+  authentication: PropTypes.shape()
 }
