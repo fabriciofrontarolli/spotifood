@@ -23,7 +23,7 @@ class Index extends Component {
     super(props);
 
     this.state = {
-      selectedFilters: {},
+      playlistNameFilter: '',
     };
 
     this.buildFilterComponent = this.buildFilterComponent.bind(this);
@@ -33,6 +33,8 @@ class Index extends Component {
     this.handleResetFilters = this.handleResetFilters.bind(this);
     this.handleGoToPlaylist = this.handleGoToPlaylist.bind(this);
     this.fetchPlaylists = this.fetchPlaylists.bind(this);
+    this.filterPlaylistByName = this.filterPlaylistByName.bind(this);
+    this.handleFilterPlaylistByName = this.handleFilterPlaylistByName.bind(this);
   }
 
   componentWillMount() {
@@ -139,6 +141,10 @@ class Index extends Component {
     return component;
   }
 
+  handleFilterPlaylistByName(ev) {
+    this.setState({ playlistNameFilter: ev.target.value });
+  }
+
   handleResetFilters() {
     this.props.clearFilters();
   }
@@ -147,8 +153,19 @@ class Index extends Component {
     window.open(playlistUrl);
   }
 
+  filterPlaylistByName() {
+    const { featuredPlaylists } = this.props;
+    const { playlistNameFilter } = this.state;
+
+    const filteredPlaylist = featuredPlaylists.playlists.items.length ? featuredPlaylists.playlists.items.filter(
+      p => p.name.toLowerCase().includes(playlistNameFilter.toLowerCase())
+    ) : [];
+    return filteredPlaylist;
+  }
+
   render() {
-    const { filters, playlists } = this.props.featuredPlaylists;
+    const { filters } = this.props.featuredPlaylists;
+    const filteredPlaylists = this.filterPlaylistByName();
 
     return (
       <div>
@@ -169,6 +186,13 @@ class Index extends Component {
                 {
                   filters.map(f => this.buildFilterComponent(f))
                 }
+                <div className="col-lg-2 filter-field-container" key="playlist-filter-name">
+                  <FormControl
+                    onChange={this.handleFilterPlaylistByName}
+                    placeholder="Nome"
+                    value={this.state.playlistNameFilter}
+                  />
+                </div>
                 <div className="col-lg-2">
                   <Button
                     variant="success"
@@ -185,7 +209,7 @@ class Index extends Component {
           <div className="container playlist-listing">
             <FeaturedPlaylists
               filters={filters}
-              playlists={playlists.items}
+              playlists={filteredPlaylists}
               handleGoToPlaylist={this.handleGoToPlaylist}
             />
           </div>
